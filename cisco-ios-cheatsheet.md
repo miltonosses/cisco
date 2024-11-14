@@ -81,3 +81,89 @@
 | `show running-config` | Shows current config | `Switch# show running-config` |
 | `show startup-config` | Shows saved config | `Switch# show startup-config` |
 | `erase startup-config` | Erases saved config | `Switch# erase startup-config` |
+
+
+# Cisco IOS Layer 3 and Routing Protocols Configuration Guide
+
+## Layer 3 Interface Configuration
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `no switchport` | Convert interface to Layer 3 | `Switch(config-if)# no switchport` |
+| `ip address IP_ADDR MASK` | Configure IP address | `Switch(config-if)# ip address 192.168.1.1 255.255.255.0` |
+| `ip address IP_ADDR MASK secondary` | Add secondary IP | `Switch(config-if)# ip address 192.168.2.1 255.255.255.0 secondary` |
+| `ip helper-address IP_ADDR` | Configure DHCP relay | `Switch(config-if)# ip helper-address 10.1.1.100` |
+| `show ip interface` | Verify L3 interface status | `Switch# show ip interface gi1/0/1` |
+| `show ip route` | View routing table | `Switch# show ip route` |
+
+## VRF (Virtual Routing and Forwarding)
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `vrf definition NAME` | Create VRF | `Switch(config)# vrf definition CUSTOMER_A` |
+| `address-family ipv4` | Configure IPv4 address-family | `Switch(config-vrf)# address-family ipv4` |
+| `ip vrf NAME` | Create VRF (old syntax) | `Switch(config)# ip vrf CUSTOMER_A` |
+| `vrf forwarding NAME` | Assign interface to VRF | `Switch(config-if)# vrf forwarding CUSTOMER_A` |
+| `show vrf` | Display VRF information | `Switch# show vrf` |
+| `show ip route vrf NAME` | Show VRF routing table | `Switch# show ip route vrf CUSTOMER_A` |
+
+## BGP (Border Gateway Protocol)
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `router bgp AS_NUMBER` | Enable BGP routing | `Switch(config)# router bgp 65001` |
+| `neighbor IP_ADDR remote-as AS` | Configure BGP peer | `Switch(config-router)# neighbor 10.1.1.2 remote-as 65002` |
+| `network NETWORK mask MASK` | Advertise network | `Switch(config-router)# network 192.168.1.0 mask 255.255.255.0` |
+| `address-family ipv4 vrf NAME` | Configure VRF-aware BGP | `Switch(config-router)# address-family ipv4 vrf CUSTOMER_A` |
+| `show ip bgp summary` | Show BGP peers status | `Switch# show ip bgp summary` |
+| `show ip bgp neighbors` | Show detailed peer info | `Switch# show ip bgp neighbors` |
+
+## ECMP (Equal-Cost Multi-Path)
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `maximum-paths NUMBER` | Configure ECMP paths | `Switch(config-router)# maximum-paths 8` |
+| `ip route NETWORK MASK NEXT_HOP` | Create static route | `Switch(config)# ip route 10.0.0.0 255.255.255.0 192.168.1.1` |
+| `ip route NETWORK MASK NEXT_HOP2` | Create additional equal path | `Switch(config)# ip route 10.0.0.0 255.255.255.0 192.168.2.1` |
+| `show ip route NETWORK` | Verify ECMP routes | `Switch# show ip route 10.0.0.0` |
+
+## VRRP (Virtual Router Redundancy Protocol)
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `vrrp GROUP ip IP_ADDR` | Configure VRRP group | `Switch(config-if)# vrrp 1 ip 192.168.1.254` |
+| `vrrp GROUP priority PRIORITY` | Set VRRP priority | `Switch(config-if)# vrrp 1 priority 150` |
+| `vrrp GROUP preempt` | Enable preemption | `Switch(config-if)# vrrp 1 preempt` |
+| `show vrrp` | Show VRRP status | `Switch# show vrrp` |
+| `show vrrp brief` | Show VRRP summary | `Switch# show vrrp brief` |
+
+## OSPF (Open Shortest Path First)
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `router ospf PROCESS_ID` | Enable OSPF routing | `Switch(config)# router ospf 1` |
+| `network NETWORK WILDCARD area AREA` | Define OSPF networks | `Switch(config-router)# network 192.168.1.0 0.0.0.255 area 0` |
+| `ip ospf cost COST` | Set interface OSPF cost | `Switch(config-if)# ip ospf cost 100` |
+| `show ip ospf` | Show OSPF process | `Switch# show ip ospf` |
+| `show ip ospf neighbor` | Show OSPF neighbors | `Switch# show ip ospf neighbor` |
+
+## Route Maps and Policy
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `route-map NAME permit SEQ` | Create route map | `Switch(config)# route-map FILTER permit 10` |
+| `match ip address ACL` | Match IP prefix | `Switch(config-route-map)# match ip address prefix-list ALLOW` |
+| `set local-preference VALUE` | Set BGP local preference | `Switch(config-route-map)# set local-preference 200` |
+| `ip prefix-list NAME` | Create prefix list | `Switch(config)# ip prefix-list ALLOW permit 192.168.0.0/24` |
+| `show route-map` | Show route maps | `Switch# show route-map FILTER` |
+
+## Verification and Troubleshooting
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `show ip protocols` | Show routing protocols | `Switch# show ip protocols` |
+| `show ip route summary` | Show routing table summary | `Switch# show ip route summary` |
+| `show ip bgp vpnv4 vrf NAME` | Show VRF BGP routes | `Switch# show ip bgp vpnv4 vrf CUSTOMER_A` |
+| `traceroute vrf NAME` | VRF traceroute | `Switch# traceroute vrf CUSTOMER_A 8.8.8.8` |
+| `ping vrf NAME` | VRF ping | `Switch# ping vrf CUSTOMER_A 192.168.1.1` |
+

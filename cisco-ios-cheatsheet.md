@@ -137,6 +137,22 @@
 | `show vrrp` | Show VRRP status | `Switch# show vrrp` |
 | `show vrrp brief` | Show VRRP summary | `Switch# show vrrp brief` |
 
+## RIP (Routing Information Protocol)
+
+| Command | Description | Example |
+|---------|-------------|----------|
+| `router rip` | Enable RIP routing | `Switch(config)# router rip` |
+| `version 2` | Configure RIP version 2 | `Switch(config-router)# version 2` |
+| `network NETWORK` | Define networks to advertise | `Switch(config-router)# network 192.168.1.0` |
+| `no auto-summary` | Disable auto summarization | `Switch(config-router)# no auto-summary` |
+| `ip rip authentication mode md5` | Enable MD5 authentication | `Switch(config-if)# ip rip authentication mode md5` |
+| `ip rip authentication key-chain NAME` | Set authentication key | `Switch(config-if)# ip rip authentication key-chain RIP-KEY` |
+| `passive-interface INTERFACE` | Stop RIP on interface | `Switch(config-router)# passive-interface gi1/0/1` |
+| `default-information originate` | Advertise default route | `Switch(config-router)# default-information originate` |
+| `show ip rip database` | Show RIP routes | `Switch# show ip rip database` |
+| `show ip protocols` | Verify RIP configuration | `Switch# show ip protocols` |
+| `debug ip rip` | Debug RIP updates | `Switch# debug ip rip` |
+
 ## OSPF (Open Shortest Path First)
 
 | Command | Description | Example |
